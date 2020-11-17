@@ -1,0 +1,197 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+XoocBalamIngridLisset_DecimalAOctal.exe -- emu8086 assembler version: 4.08  
+ 
+[ 17/03/2020  --  06:59:47 p. m. ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       ;Carrera:   Ing. En Sistemas Computacionales
+[   2]        :                                       ;Grado:     6
+[   3]        :                                       ;Grupo:     "A"
+[   4]        :                                       ;Materia:   Lenguaje de interfaz
+[   5]        :                                       ;Profesor:  LCC. Juan Bernardo Alfonso Tzuc Dzib
+[   6]        :                                       ;Nombre:    Xooc Balam Ingrid Lisset
+[   7]        :                                       ;Matricula: 17070047
+[   8]        :                                       ;Fecha:     17/Marzo/2020
+[   9]        :                                       
+[  10]        :                                       .model small    ;Se define el modelo de tipo small
+[  11]        :                                       .stack 100      ;Se determina el tamaño de la pila, en este caso es de 100
+[  12]        :                                       .data           ;En este apartado se declaran todas las variables que se utilizarán en el programa.
+[  13]        :                                       
+[  14]    0070: 00                                    dece    db 0 ;Variable que guarda las decenas del número que se ingresa
+[  15]    0071: 00                                    uni     db 0 ;Variable que guarda las unidades del número que se ingresa
+[  16]    0072: 01                                    i       db 1 ;variable que funciona como contador. Cuenta cuántas veces ya se ha repetido
+[  17]        :                                       ;la etiqueta imprimir,
+[  18]        :                                       
+[  19]    0073: 00                                    dato    db 0 ;variable que almacena el número que se ingresa desde teclado.
+[  20]        :                                       ;De igual manera, esta variable se utiliza para guardar el rresultado de la división
+[  21]        :                                       ;de la variable dato entre la variable octal.
+[  22]        :                                       
+[  23]    0074: 08                                    octal   db 8 ;La variable octal almacena el valor de 8, porque dentro del programa es
+[  24]        :                                       ;la variable que representa al divisor del método para convertir de decimal a octal.
+[  25]        :                                       
+[  26]    0075: 0A 0D 45 6C 20 6E FA 6D 65 72 6F 20   mensaje       db 10,13,"El número ingresado en Octal es: ","$" ;Esta variable es la que almacena
+                69 6E 67 72 65 73 61 64 6F 20 65 6E 
+                20 4F 63 74 61 6C 20 65 73 3A 20 24 
+                                                    
+[  27]        :                                       ;el mensaje que se muestra casi al
+[  28]        :                                       ;final del programa.
+[  29]        :                                       
+[  30]    0099: 0A 0D 49 6E 67 72 65 73 61 20 75 6E   msg           db 10,13,'Ingresa un número: $'              ;Esta variable es la que almacena
+                20 6E FA 6D 65 72 6F 3A 20 24       
+[  31]        :                                       ;el mensaje que se muestra para ingresar
+[  32]        :                                       ;el número con el que se va ha
+[  33]        :                                       ;trabajar.
+[  34]        :                                       
+[  35]    00AF: 00 00 00 00 00 00 00 00 00 00 00 00   resultArreglo db 20 dup(0), "$" ;Esta variable sirve como un arreglo de datos, ya que, al asignarle 20 dup(0), significa que se define en memoria la repetición de 20 veces el valor 0.
+                00 00 00 00 00 00 00 00 24          
+[  36]        :                                       ;Esta variable almacena todos los residuos de las divisiones
+[  37]        :                                       ;que se vayan generando en el programa
+[  38]        :                                       
+[  39]        :                                       
+[  40]        :                                       
+[  41]        :                                       .code
+[  42]    00D0: B8 07 00                              mov ax,@data ;Para poder utilizar las variables que se han declarado, se le asignan al registro ax
+[  43]    00D3: 8E D8                                 mov ds, ax   ;Se le asigna al segmento de datos (ds) todo lo que se cargo anteriormente en ax.
+[  44]    00D5: BF 00 00                              mov di, 00h  ;Se inicializa en 0 el registro índice destino
+[  45]    00D8: BE 00 00                              mov si, 00h  ;Se inicializa en 0 el registro índice fuente
+[  46]        :                                       
+[  47]    00DB: B4 09                                 mov ah, 09h  ;Se mueve la interrupción 09h a ah, para que se realice una petición para mostrar el mensaje
+[  48]    00DD: BA 29 00                              lea dx, msg  ;Lea carga el mensaje en el segmento de datos y
+[  49]    00E0: CD 21                                 int 21h      ;la interrupción 21h muestra el mensaje desde la consola (pantalla)
+[  50]        :                                       
+[  51]    00E2: B4 01                                 mov ah,01h   ;01h se encarga de realizar una petición junto con la
+[  52]    00E4: CD 21                                 int 21h      ;interrupción 21h.Cuando se ingresa el caracter automáticamente se guarda en al.
+[  53]    00E6: 2C 30                                 sub al,30h   ;Como el caracter se guarda en al, entonces a al se le resta 30h para conocer en
+[  54]        :                                       ;el valor de ese dato en el código ascii
+[  55]    00E8: A2 00 00                              mov dece,al  ;cuando se termina de realizar la resta, se asigna a la variable dece
+[  56]        :                                       ;que es el encargado de alamacenar las decenas del número con el que se trabajará.
+[  57]        :                                       
+[  58]    00EB: B4 01                                 mov ah, 01h  ;Se realiza de nuevo una petición, pero esta vez para obtener las unidades del número
+[  59]    00ED: CD 21                                 int 21h      ;se muestra la consola para ingresar el caracter. Este caracter se guarda el al.
+[  60]    00EF: 2C 30                                 sub al,30h   ;Se le resta 30h a al para conocer cuál es el número ingresado, posteriormente
+[  61]    00F1: A2 01 00                              mov uni,al   ;este resultado se le es asignado a la variable uni.
+[  62]        :                                       
+[  63]        :                                       
+[  64]        :                                       ;Procedimiento para guardar el número ingresado a la variable numero
+[  65]        :                                       ;Como el número ingresado esta separado en decenas y unidades entonces se realiza lo siguiente.
+[  66]    00F4: A0 00 00                              mov al,dece ;Se mueve al acumulador al el valor de la variable dece.
+[  67]    00F7: B3 0A                                 mov bl,10   ;Se asigna el valor de 10 en el registro base, ya que una decena equiva a 10
+[  68]    00F9: F6 E3                                 mul bl      ;Se multiplica al por bl para tener el resultado. El resultado se guarda en al
+[  69]    00FB: 02 06 01 00                           add al,uni  ;Como ya se tiene las decenas ahora solo se le suma las unidades al registro al.
+[  70]    00FF: A2 03 00                              mov dato,al ;Ahora solo se guarda en la variable dato el número entero.
+[  71]        :                                       
+[  72]    0102:                                       ciclo:  ;En esta etiqueta se realizarán las divisiones y se irán guardando los datos en un arreglo.
+[  73]        :                                       ;Primero se realiza la división
+[  74]    0102: 33 C0                                 xor ax,ax     ;Se encarga de limpiar los registros
+[  75]    0104: 8A 1E 04 00                           mov bl,octal  ;La variable octal contiene el valor del divisor y se meuve a bl.
+[  76]    0108: A0 03 00                              mov al,dato   ;La variable dato tiene el dividendo y lo mueve en al.
+[  77]        :                                       
+[  78]        :                                       ;La fórmula para la división es al=al/bl. Es por eso que, se guardaron los valores
+[  79]        :                                       ;anteriores en los regiatros correspondientes.
+[  80]        :                                       ;El cociente de la división se guada en al (al=al/bl)
+[  81]        :                                       ;El residuo de la división se guada en ah (ah=res).
+[  82]    010B: F6 F3                                 div bl        ;Se realiza la división.
+[  83]    010D: A2 03 00                              mov dato,al   ;Ahora, se copia el cociente de la división en la variable dato, y
+[  84]        :                                       
+[  85]    0110: 80 3E 03 00 00                        cmp dato,0    ;Compara el valor de la variable dato con 0
+[  86]    0115: 74 06                                 je salir      ;Si es igual a cero, entonces salta a la etiqueta salir
+[  87]        :                                       ;Si es diferente a cero realiza todo lo demás.
+[  88]        :                                       
+[  89]    0117: 88 64 3F                              mov resultArreglo[si],ah  ;mueve en el arreglo resultArreglo[si], lo que está en ah.
+[  90]        :                                       ;donde si, es el indice fuente y tiene un valor inicial de 0. y
+[  91]        :                                       ;donde ah, contiene el residuo de la división realizada anteriormente.
+[  92]    011A: 46                                    inc si                    ;Incrementa en un valor si
+[  93]    011B: EB E5                                 jmp ciclo                     ;jmp hace que se repita de nuevo la etiqueta ciclo
+[  94]        :                                       
+[  95]    011D:                                       salir:  ;La etiqueta salir realiza el último registro en el arreglo resultArreglo[si]
+[  96]    011D: 88 64 3F                              mov resultArreglo[si],ah  ;mueve en el arreglo resultArreglo[si], lo que está en ah.
+[  97]        :                                       ;donde si, es el indice fuente y tiene un valor inicial de 0. y
+[  98]        :                                       ;donde ah, contiene el residuo de la división realizada anteriormente.
+[  99]    0120: 46                                    inc si                    ;Incrementa en un valor si
+[ 100]        :                                       
+[ 101]    0121: E8 00 00                              call mostrar                  ;Para mostrar el resultado de la conversión de decimal a octal
+[ 102]        :                                       ;se llama a la etiqueta mostrar.
+[ 103]    0124:                                       mostrar:
+[ 104]    0124: B4 09                                 mov ah, 09h               ;Se mueve la interrupción 09h a ah, para que se realice una petición para mostrar el mensaje
+[ 105]    0126: BA 05 00                              lea dx, mensaje           ;Lea carga el mensaje en el segmento de datos y
+[ 106]    0129: CD 21                                 int 21h                   ;la interrupción 21h muestra el mensaje desde la consola (pantalla)
+[ 107]    012B: 8B FE                                 mov di,si                 ;Se utiliza el indice destino asignándole el valor del indice fuente.
+[ 108]    012D: E8 00 00                              call imprimir             ;Se llama a la etiqueta imprimir.
+[ 109]        :                                       
+[ 110]    0130:                                       imprimir:      ;Esta etiqueta se encarga de mostrar los datos del arreglo resultArreglo[di], pero de manera invertida
+[ 111]    0130: B7 00                                 mov bh,0   ;Se asigna el valor de 0 a bh para que en el siguiente procedimeinto no afecte los resultados.
+[ 112]    0132: 8A 1E 02 00                           mov bl,i   ;El contador i, inicializado en 1 se mueve al registro bl.
+[ 113]        :                                       
+[ 114]        :                                       ;Para poder comparar si ya se ha impreso todos los registros del arreglo, se
+[ 115]    0136: 3B DE                                 cmp bx,si  ;compara bx(almacena el contador i) con si (tiene la cantidad de los registros realizados en el arreglo).
+[ 116]    0138: 77 1A                                 jnbe fin   ;Si bx es mayor que si, entonces va a la etiqueta fin.
+[ 117]        :                                       
+[ 118]        :                                       ;Si es menor que si, realiza todo lo siguiente.
+[ 119]    013A: 8B C7                                 mov ax,di  ;Se asigna a ax la cantidad de registros del arreglo almacena en di.
+[ 120]    013C: 2C 01                                 sub al,1   ;Se le resta uno al registro al para obtener la última posición del arreglo
+[ 121]    013E: 8B F8                                 mov di,ax  ;y ese resultado se mueve al índice destino
+[ 122]        :                                       
+[ 123]    0140: 8A 45 3F                              mov al,resultArreglo[di] ;Se mueve a al lo que este en el arreglo en una determinada posición. Para comenzar a imprimir los resultados de la última posición a la primera,
+[ 124]        :                                       ;se le asigna la posición [di] al arreglo resultArreglo.
+[ 125]    0143: 8B D8                                 mov bx,ax               ;Se mueve el dato obtenido de ax a bx.
+[ 126]    0145: B4 02                                 mov ah,02h              ;02h indica la operacion que coloca al cursor
+[ 127]    0147: 8A D3                                 mov dl,bl               ;Se mueve en dl lo que está guardado en bl y
+[ 128]    0149: 80 C2 30                              add dl,30h              ;se le suma 30h para tener el dato original
+[ 129]    014C: CD 21                                 int 21h                 ;Por último se realiza la interrupción 21h, encargado de mostrar el resultado en la pantalla
+[ 130]    014E: FE 06 02 00                           inc i                   ;incrementa en contador i
+[ 131]    0152: EB DC                                 jmp imprimir                ;jmp indica que se realiza un salto a la etiqueta imprimir
+[ 132]        :                                       
+[ 133]    0154:                                       fin:      ;Esta etiqueta indica que se ha terminado el proceso.
+[ 134]    0154: B8 00 4C CD 21                        .exit ;sirve para salir
+[ 135]    0159: C3                                    ret          ;Retorno del programa
+[ 136]        :                                       end          ;Fin del archivo fuente.
+[ 137]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 5A      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 02      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 64      -   SP - stack pointer (l.byte)
+0011: 00      -   SP - stack pointer (h.byte)
+0012: FA      -   check sum (l.byte)
+0013: CF      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 0D      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 0D      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

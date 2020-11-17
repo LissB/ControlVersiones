@@ -1,0 +1,24 @@
+< THE SYMBOL TABLE >  XoocBalamIngridLisset_DecimalAOctal.exe  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00007     	-5        	SEGMENT   	(ITSELF)  
+DECE                     	00000     	1         	VAR       	data      
+UNI                      	00001     	1         	VAR       	data      
+I                        	00002     	1         	VAR       	data      
+DATO                     	00003     	1         	VAR       	data      
+OCTAL                    	00004     	1         	VAR       	data      
+MENSAJE                  	00005     	1         	VAR       	data      
+MSG                      	00029     	1         	VAR       	data      
+RESULTARREGLO            	0003F     	1         	VAR       	data      
+CODE                     	0000D     	-5        	SEGMENT   	(ITSELF)  
+CICLO                    	00032     	-1        	LABEL     	code      
+SALIR                    	0004D     	-1        	LABEL     	code      
+MOSTRAR                  	00054     	-1        	LABEL     	code      
+IMPRIMIR                 	00060     	-1        	LABEL     	code      
+FIN                      	00084     	-1        	LABEL     	code      
+===================================================================================================
+[ 17/03/2020  --  06:59:47 p. m. ] 
+< END >
+ 
